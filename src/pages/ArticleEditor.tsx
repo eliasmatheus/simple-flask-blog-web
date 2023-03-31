@@ -86,13 +86,13 @@ function ArticleEditor() {
 
                 <div className="mt-6 flex items-center justify-end gap-x-6">
                   <div>
-                    <Button type="button" color="ghost" onClick={handleCancel}>
+                    <Button type="button" ghost onClick={handleCancel}>
                       Cancel
                     </Button>
                   </div>
 
                   <div>
-                    <Button type="submit" color="sky">
+                    <Button type="submit" status="sky">
                       Submit
                     </Button>
                   </div>

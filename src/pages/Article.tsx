@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
+import { BiEditAlt, BiTrash } from 'react-icons/bi';
 
 import Header from '../components/Header';
 import api from '../services/api';
 import date from '../utils/date-formatter';
+import { Button } from '../components/Form/Button';
+import { GhostButton } from '../components/Form/GhostButton';
 
 export interface IArticle {
   id: number;
@@ -98,8 +101,16 @@ function Article() {
                       </li>
                     </ul>
 
-                    <div>
-                      <button>Delete</button>
+                    <div className="flex space-x-2">
+                      <GhostButton status="primary">
+                        <div className="flex">
+                          <BiEditAlt className="text-lg" />
+                        </div>
+                      </GhostButton>
+
+                      <GhostButton status="danger">
+                        <BiTrash className=" text-lg" />
+                      </GhostButton>
                     </div>
                   </div>
 
