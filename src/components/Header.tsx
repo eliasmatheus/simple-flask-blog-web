@@ -1,44 +1,60 @@
+import { Link } from 'react-router-dom';
+
 function Header() {
   return (
-    <header className="text-gray-400 bg-gray-900 body-font">
-      <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
-            viewBox="0 0 24 24"
-          >
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-          </svg>
-          <span className="ml-3 text-xl">Tailblocks</span>
-        </a>
-        <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <a className="mr-5 hover:text-white">First Link</a>
-          <a className="mr-5 hover:text-white">Second Link</a>
-          <a className="mr-5 hover:text-white">Third Link</a>
-          <a className="mr-5 hover:text-white">Fourth Link</a>
-        </nav>
-        <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
-          Button
-          <svg
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            className="w-4 h-4 ml-1"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
-        </button>
+    <div
+      className="
+        sticky top-0 z-40 
+        w-full 
+        backdrop-blur 
+        flex-none 
+        transition-colors duration-500 
+        lg:z-50 lg:border-b lg:border-slate-900/10
+        dark:lg:border-slate-200/10 dark:border-slate-50/[0.06] 
+        bg-white/95 supports-backdrop-blur:bg-white/60 
+        dark:bg-transparent
+    "
+    >
+      <div className="max-w-8xl mx-auto">
+        <div className="py-4 border-b border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 px-4">
+          <div className="relative flex items-center">
+            <Link to="/" className="mr-3 flex-none w-[2.0625] overflow-hidden md:w-auto">
+              <span className="sr-only">Flask + React Blog home page</span>
+
+              <span className="tracking-tight text-slate-900 dark:text-slate-100">
+                Flask + React Blog
+              </span>
+            </Link>
+
+            <div className="relative hidden lg:flex items-center ml-auto">
+              <nav className="text-sm leading-6 font-semibold text-slate-700 dark:text-slate-200">
+                <ul className="flex space-x-8">
+                  <li>
+                    <Link
+                      to="/about"
+                      className="hover:text-sky-500 dark:hover:text-sky-400"
+                    >
+                      About
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/new-article"
+                      className="hover:text-sky-500 dark:hover:text-sky-400"
+                    >
+                      Create Article
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+
+              {/* TODO: Adicionar botão de toggle de tema com Headless UI e links para redes sociais */}
+            </div>
+          </div>
+        </div>
       </div>
-    </header>
+    </div>
   );
 }
 

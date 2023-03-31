@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import date from '../utils/date-formatter';
 
 interface ArticlePreviewData {
   id: number;
@@ -9,6 +10,8 @@ interface ArticlePreviewData {
 }
 
 function ArticlePreview(props: ArticlePreviewData) {
+  const articleURL = `/article/${props.id}`;
+
   return (
     <article className="relative group">
       <div className="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70 dark:group-hover:bg-slate-800/50"></div>
@@ -40,12 +43,17 @@ function ArticlePreview(props: ArticlePreviewData) {
 
           <dd className="whitespace-nowrap text-sm leading-6 dark:text-slate-400">
             {/* <time dateTime="2023-03-28T14:30:00.000Z">March 28, 2023</time> */}
-            <time dateTime={props.date_posted}>{props.date_posted}</time>
+            <time dateTime={props.date_posted}>
+              {date(props.date_posted, 'shortDate')}
+            </time>
           </dd>
         </dl>
       </div>
 
-      <Link to="article" className="flex items-center text-sm text-sky-500 font-medium">
+      <Link
+        to={articleURL}
+        className="flex items-center text-sm text-sky-500 font-medium"
+      >
         <span className="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl"></span>
 
         <span className="relative">
