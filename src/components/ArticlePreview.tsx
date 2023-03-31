@@ -1,4 +1,14 @@
-function ArticlePreview() {
+import { Link } from 'react-router-dom';
+
+interface ArticlePreviewData {
+  id: number;
+  title: string;
+  subtitle: string;
+  author: string;
+  date_posted: string;
+}
+
+function ArticlePreview(props: ArticlePreviewData) {
   return (
     <article className="relative group">
       <div className="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70 dark:group-hover:bg-slate-800/50"></div>
@@ -18,42 +28,29 @@ function ArticlePreview() {
 
       <div className="relative">
         <h3 className="text-base font-semibold tracking-tight text-slate-900 dark:text-slate-200 pt-8 lg:pt-0">
-          Tailwind CSS v3.3: Extended color palette, ESM/TS support, logical properties,
-          and more
+          {props.title}
         </h3>
 
         <div className="mt-2 mb-4 prose prose-slate prose-a:text-slate-900 prose-a:z-10 dark:prose-a:text-slate-200 line-clamp-2">
-          {/* <p>
-            Tailwind CSS v3.3 is here — bringing a bunch of new features people have been
-            asking for forever, and a bunch of new stuff you didn’t even know you wanted.
-          </p> */}
-
-          <p>
-            It’s been months in the making but I’m excited to finally release our next
-            website template —{' '}
-            <a href="https://tailwindui.com/templates/protocol">Protocol</a>, a beautiful
-            starter kit for building amazing API reference websites.
-          </p>
+          <p>{props.subtitle}</p>
         </div>
 
         <dl className="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
           <dt className="sr-only">Date</dt>
 
           <dd className="whitespace-nowrap text-sm leading-6 dark:text-slate-400">
-            <time dateTime="2023-03-28T14:30:00.000Z">March 28, 2023</time>
+            {/* <time dateTime="2023-03-28T14:30:00.000Z">March 28, 2023</time> */}
+            <time dateTime={props.date_posted}>{props.date_posted}</time>
           </dd>
         </dl>
       </div>
 
-      <a href="" className="flex items-center text-sm text-sky-500 font-medium">
+      <Link to="article" className="flex items-center text-sm text-sky-500 font-medium">
         <span className="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl"></span>
 
         <span className="relative">
           Read more
-          <span className="sr-only">
-            , Tailwind CSS v3.3: Extended color palette, ESM/TS support, logical
-            properties, and more
-          </span>
+          <span className="sr-only">, {props.subtitle}</span>
         </span>
 
         <svg
@@ -69,7 +66,7 @@ function ArticlePreview() {
         >
           <path d="M0 0L3 3L0 6"></path>
         </svg>
-      </a>
+      </Link>
     </article>
   );
 }
