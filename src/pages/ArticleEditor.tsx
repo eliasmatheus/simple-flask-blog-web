@@ -22,7 +22,7 @@ function ArticleEditor() {
     // console.log('handleCreateArticle -> data:', data);
 
     try {
-      await api.post('/post', formData);
+      await api.post('/article', formData);
 
       alert('Article created successfully!');
       navigate('/');

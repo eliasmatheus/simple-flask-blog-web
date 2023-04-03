@@ -24,7 +24,7 @@ function Article() {
   const [article, setArticle] = useState<IArticle>();
 
   useEffect(() => {
-    api.get(`/post/${id}`).then(response => {
+    api.get(`/article/${id}`).then(response => {
       console.log('api.get -> response:', response);
 
       setArticle(response.data);
