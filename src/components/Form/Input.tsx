@@ -23,7 +23,7 @@ export function Input({ label, register, required, ...props }: InputProps) {
         border border-transparent
         py-2 px-3
         w-full
-        tex-slate-900 focus:outline-none focus-ring-2 focus:ring-sky-500 dark:focus:ring-sky-500
+        text-slate-900 focus:outline-none focus-ring-2 focus:ring-sky-500 dark:focus:ring-sky-500
         bg-white dark:bg-slate-700/20
         dark:text-white
         placeholder:text-slate-400
