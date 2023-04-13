@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
 
-import { Button } from '../components/Form/Button';
+import { Button } from '../components/Buttons/Button';
 import { Input } from '../components/Form/Input';
 import { Textarea } from '../components/Form/TextArea';
 import Header from '../components/Header';
 import api from '../services/api';
 import { ErrorWarning } from '../components/Form/ErrorWarning';
 import { useToast } from '../hooks/toast';
+import { GoBackButton } from '../components/Buttons/GoBackButton';
 
 const INITIAL_VALUES = {
   title: '',
@@ -53,7 +54,7 @@ function ArticleEditor() {
    *
    * @param data - Dados do formulário
    */
-  async function handleCreateArticle(data: FieldValues) {
+  function handleCreateArticle(data: FieldValues) {
     const formData = new FormData();
 
     // Se estiver editando, envia o id do artigo
@@ -67,6 +68,13 @@ function ArticleEditor() {
 
     setLoadingSubmit(true);
 
+    // Simula o tempo de espera para a requisição
+    setTimeout(() => {
+      submitArticle(formData);
+    }, 2000);
+  }
+
+  async function submitArticle(formData: FormData) {
     try {
       const method = id ? 'put' : 'post';
 
@@ -75,7 +83,6 @@ function ArticleEditor() {
       addToast({
         type: 'success',
         title: `Article ${id ? 'updated' : 'created'} successfully!`,
-        // description: 'Você já pode fazer seu logon no GoBarber',
       });
 
       setSubmitSuccessful(true);
@@ -98,13 +105,15 @@ function ArticleEditor() {
     reset(INITIAL_VALUES);
   }, [isSubmitSuccessful]);
 
-  function handleCancel() {
-    navigate('/');
-  }
-
   return (
     <>
       <Header />
+
+      <div className="max-w-8xl mx-auto">
+        <div className="flex px-4 pt-8 pb-10 lg:px-8">
+          <GoBackButton />
+        </div>
+      </div>
 
       <main className="max-w-[52rem] mx-auto px-4 pb-10 sm:px-6 md:px-8 xl:px-12 lg:max-w-6xl">
         <header className="py-16">
@@ -206,15 +215,19 @@ function ArticleEditor() {
                   </div>
                 </div>
 
-                <div className="mt-6 flex items-center justify-end gap-x-6">
+                <div className="mt-6 flex items-center justify-end gap-x-3">
                   <div>
-                    <Button type="button" ghost onClick={handleCancel}>
+                    <Button
+                      type="button"
+                      color="alternative"
+                      onClick={() => navigate(-1)}
+                    >
                       Cancel
                     </Button>
                   </div>
 
                   <div>
-                    <Button type="submit" status="sky" loading={loadingSubmit}>
+                    <Button type="submit" color="default" loading={loadingSubmit}>
                       Submit
                     </Button>
                   </div>

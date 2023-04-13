@@ -10,8 +10,6 @@ interface ToastContainerProps {
 }
 
 const ToastComponent: React.FC<ToastContainerProps> = ({ messages }) => {
-  console.log('messages:', messages);
-
   const transitions = useTransition(messages, {
     from: { right: '-120%', opacity: 0 },
     enter: { right: '0%', opacity: 1 },

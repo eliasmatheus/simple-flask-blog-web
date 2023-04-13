@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes } from 'react';
+import { BASIC_BUTTON_CLASS } from '../Buttons/Button';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   status?: 'danger' | 'primary';
@@ -10,52 +11,20 @@ export function GhostButton(props: ButtonProps) {
   }
 
   const colors = {
-    danger: 'sky',
-    primary: 'sky',
+    danger:
+      'hover:bg-red-600 dark:hover:bg-red-400 dark:hover:ring-red-500 dark:hover:text-red-900',
+    primary:
+      'hover:bg-sky-600 dark:hover:bg-sky-400 dark:hover:ring-sky-500 dark:hover:text-sky-900',
   };
-
-  const button = `
-   bg-sky-500 
-   flex-auto 
-   shadow 
-   text-white 
-   rounded-md 
-   text-sm 
-   border-y 
-   border-transparent 
-   py-2 
-   font-semibold 
-   px-3 
-   hover:bg-sky-600 
-   dark:hover:bg-sky-400 
-   focus:outline-none 
-   focus:ring-2 
-   focus:ring-offset-2 
-   focus:ring-sky-300 
-   dark:focus:ring-offset-slate-900 
-   dark:focus:ring-sky-700`;
 
   return (
     <button
       {...props}
       className={`
-        flex-auto 
-        shadow 
-        rounded-md 
-        font-semibold 
-        ring-1 
-        ring-slate-900/5 
-        leading-5 
-        sm:text-sm border 
-        border-transparent 
-        py-2 
-        px-3 
+        ${BASIC_BUTTON_CLASS}
+        ring-1 ring-slate-900/5 
         text-slate-900 dark:text-white
-        focus:outline-none 
-        hover:bg-${colors[props.status]}-600 
-        dark:hover:bg-${colors[props.status]}-400 
-        dark:hover:ring-${colors[props.status]}-500 
-        dark:hover:text-slate-900
+        ${colors[props.status]}
         bg-white dark:bg-slate-700/20 
         dark:ring-slate-200/20 
       `}

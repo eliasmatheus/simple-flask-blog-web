@@ -18,7 +18,6 @@ function Root() {
 
   useEffect(() => {
     api.get('/articles').then(response => {
-      console.log('api.get -> response:', response);
       setArticles(response.data.articles);
     });
   }, []);
