@@ -9,8 +9,6 @@ export function GhostButton(props: ButtonProps) {
     props.status = 'primary';
   }
 
-  console.log('props.status:', props.status);
-
   const colors = {
     danger: 'sky',
     primary: 'sky',

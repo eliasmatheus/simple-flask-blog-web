@@ -1,10 +1,16 @@
 import { InputHTMLAttributes } from 'react';
+import { Path, useForm, UseFormRegister, SubmitHandler } from 'react-hook-form';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label: Path<any>;
+  register: UseFormRegister<any>;
+  required?: boolean;
+}
 
-export function Input(props: InputProps) {
+export function Input({ label, register, required, ...props }: InputProps) {
   return (
     <input
+      {...register(label, { required })}
       {...props}
       className="
         appearance-none 

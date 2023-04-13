@@ -29,14 +29,14 @@ function Header() {
             <div className="relative hidden lg:flex items-center ml-auto">
               <nav className="text-sm leading-6 font-semibold text-slate-700 dark:text-slate-200">
                 <ul className="flex space-x-8">
-                  <li>
+                  {/* <li>
                     <Link
                       to="/about"
                       className="hover:text-sky-500 dark:hover:text-sky-400"
                     >
                       About
                     </Link>
-                  </li>
+                  </li> */}
 
                   <li>
                     <Link

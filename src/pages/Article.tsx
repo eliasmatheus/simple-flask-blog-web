@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { BiEditAlt, BiTrash } from 'react-icons/bi';
 
 import Header from '../components/Header';
 import api from '../services/api';
 import date from '../utils/date-formatter';
-import { Button } from '../components/Form/Button';
 import { GhostButton } from '../components/Form/GhostButton';
 
 export interface IArticle {
@@ -19,7 +18,8 @@ export interface IArticle {
 }
 
 function Article() {
-  let { id } = useParams();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [article, setArticle] = useState<IArticle>();
 
@@ -30,6 +30,10 @@ function Article() {
       setArticle(response.data);
     });
   }, []);
+
+  function handleEdit() {
+    navigate(`/edit-article/${id}`);
+  }
 
   return (
     <>
@@ -50,16 +54,16 @@ function Article() {
                   d="M3 0L0 3L3 6"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></path>
               </svg>
               Go back
             </Link>
           </div>
         </div>
-        <div className="px-4 sm:px-6 md:px-8">
+        <div className="px-4 pb-28 sm:px-6 md:px-8">
           <div className="max-w-3xl mx-auto">
             <main>
               {article && (
@@ -102,7 +106,7 @@ function Article() {
                     </ul>
 
                     <div className="flex space-x-2">
-                      <GhostButton status="primary">
+                      <GhostButton status="primary" onClick={handleEdit}>
                         <div className="flex">
                           <BiEditAlt className="text-lg" />
                         </div>
@@ -116,14 +120,14 @@ function Article() {
 
                   <div className="mt-12 prose prose-slate dark:prose-dark">
                     <div className="my-8">
-                      <div className="relative not-prose my-[2em] first:mt-0 last:mb-0 rounded-2xl overflow-hidden">
+                      {/* <div className="relative not-prose my-[2em] first:mt-0 last:mb-0 rounded-2xl overflow-hidden">
                         <img
                           src="https://tailwindcss.com/_next/static/media/card.bd99fd56.jpg"
                           alt="Tailwind CSS v3.3"
                         />
 
                         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-slate-900/10 dark:ring-white/10"></div>
-                      </div>
+                      </div> */}
 
                       <p>{article.subtitle}</p>
 

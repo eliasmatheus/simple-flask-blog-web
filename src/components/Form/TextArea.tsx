@@ -1,10 +1,16 @@
 import { TextareaHTMLAttributes } from 'react';
+import { Path, UseFormRegister } from 'react-hook-form';
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label: Path<any>;
+  register: UseFormRegister<any>;
+  required?: boolean;
+}
 
-export function Textarea(props: TextareaProps) {
+export function Textarea({ label, register, required, ...props }: TextareaProps) {
   return (
     <textarea
+      {...register(label, { required })}
       {...props}
       className="
         appearance-none 

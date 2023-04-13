@@ -7,6 +7,7 @@ const Router = createBrowserRouter([
   { path: '/', element: <Root /> },
   { path: '/article/:id', element: <Article /> },
   { path: '/new-article', element: <ArticleEditor /> },
+  { path: '/edit-article/:id', element: <ArticleEditor /> },
 ]);
 
 export default Router;
