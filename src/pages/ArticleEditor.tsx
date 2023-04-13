@@ -10,6 +10,7 @@ import api from '../services/api';
 import { ErrorWarning } from '../components/Form/ErrorWarning';
 import { useToast } from '../hooks/toast';
 import { GoBackButton } from '../components/Buttons/GoBackButton';
+import Editor from '../components/Editor/Editor';
 
 const INITIAL_VALUES = {
   title: '',
@@ -199,6 +200,8 @@ function ArticleEditor() {
                       >
                         Content
                       </label>
+
+                      <Editor />
 
                       <Textarea
                         id="content"
