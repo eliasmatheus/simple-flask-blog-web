@@ -7,15 +7,15 @@ import Header from '../components/Header';
 import api from '../services/api';
 import date from '../utils/date-formatter';
 import { Button } from '../components/Buttons/Button';
-import { GoBackButton } from '../components/Buttons/GoBackButton';
 import { useToast } from '../hooks/toast';
 import { LinkButton } from '../components/Buttons/LinkButton';
 
 export interface IArticle {
-  id: number;
+  id: string;
   title: string;
   subtitle: string;
-  author: string;
+  author_id: number;
+  author: unknown;
   content: string;
   date_posted: string;
 }
@@ -25,11 +25,13 @@ function Article() {
   const navigate = useNavigate();
   const { addToast } = useToast();
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const [article, setArticle] = useState<IArticle>();
+  const [article, setArticle] = useState<any>();
 
   useEffect(() => {
     api.get(`/article/${id}`).then(response => {
       setArticle(response.data);
+
+      getAuthor(response.data.author_id, response.data);
     });
   }, []);
 
@@ -42,6 +44,15 @@ function Article() {
         deleteArticle();
       }, 2000);
     }
+  }
+
+  async function getAuthor(author_id: number, article: IArticle) {
+    await api.get(`/author/${author_id}`).then(response => {
+      setArticle({
+        ...article,
+        author: response.data,
+      });
+    });
   }
 
   async function deleteArticle() {
@@ -128,21 +139,34 @@ function Article() {
                   <div className="mt-6 flex justify-between">
                     <ul className="flex flex-wrap text-sm leading-6 -mt-6 -mx-5">
                       <li className="flex items-center font-medium whitespace-nowrap px-5 mt-6">
-                        {/* <div className="mr-3 w-9 h-9 rounded-full bg-slate-50 dark:bg-slate-800"></div> */}
+                        {article.author?.avatar_url && (
+                          <div className="mr-3 w-9 h-9 rounded-full bg-slate-50 dark:bg-slate-800">
+                            <img
+                              src={article.author.avatar_url}
+                              alt=""
+                              className="mr-3 w-9 h-9 rounded-full bg-slate-50 dark:bg-slate-800"
+                              decoding="async"
+                            />
+                          </div>
+                        )}
 
                         <div className="text-sm leading-4">
                           <div className="text-slate-900 dark:text-slate-200">
-                            {article.author}
+                            {article.author?.first_name} {article.author?.last_name}
                           </div>
 
-                          {/* <div className="mt-1">
-                            <a
-                              href=""
-                              className="text-sky-500 hover:text-sky-600 dar:text-sky-400"
-                            >
-                              @jhondoe
-                            </a>
-                          </div> */}
+                          {article.author?.twitter_username && (
+                            <div className="mt-1">
+                              <a
+                                href={`https://twitter.com/${article.author.twitter_username}`}
+                                className="text-sky-500 hover:text-sky-600 dar:text-sky-400"
+                                target="_blank"
+                                rel="noreferrer noopener"
+                              >
+                                @{article.author.twitter_username}
+                              </a>
+                            </div>
+                          )}
                         </div>
                       </li>
                     </ul>
