@@ -30,8 +30,6 @@ function Article() {
   useEffect(() => {
     api.get(`/article/${id}`).then(response => {
       setArticle(response.data);
-
-      getAuthor(response.data.author_id, response.data);
     });
   }, []);
 
@@ -44,15 +42,6 @@ function Article() {
         deleteArticle();
       }, 2000);
     }
-  }
-
-  async function getAuthor(author_id: number, article: IArticle) {
-    await api.get(`/author/${author_id}`).then(response => {
-      setArticle({
-        ...article,
-        author: response.data,
-      });
-    });
   }
 
   async function deleteArticle() {
@@ -142,7 +131,10 @@ function Article() {
                         {article.author?.avatar_url && (
                           <div className="mr-3 w-9 h-9 rounded-full bg-slate-50 dark:bg-slate-800">
                             <img
-                              src={article.author.avatar_url}
+                              src={
+                                article.author.avatar_url ||
+                                '/images/avatar-placeholder.png'
+                              }
                               alt=""
                               className="mr-3 w-9 h-9 rounded-full bg-slate-50 dark:bg-slate-800"
                               decoding="async"

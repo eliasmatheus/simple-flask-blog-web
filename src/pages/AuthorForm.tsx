@@ -11,23 +11,20 @@ import { ErrorWarning } from '../components/Form/ErrorWarning';
 import { useToast } from '../hooks/toast';
 import { GoBackButton } from '../components/Buttons/GoBackButton';
 import Editor from '../components/Editor';
-import { Select } from '../components/Form/Select';
-import { IAuthorPreview } from './Authors';
 
 const INITIAL_VALUES = {
-  title: '',
-  subtitle: '',
-  author_id: '',
-  content: '',
+  firs_name: '',
+  last_name: '',
+  twitter_username: '',
+  avatar_url: '',
 };
 
-function ArticleEditor() {
+function AuthorForm() {
   const navigate = useNavigate();
   const { addToast } = useToast();
   const { id } = useParams();
   const [isSubmitSuccessful, setSubmitSuccessful] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
-  const [authors, setAuthors] = useState<IAuthorPreview[]>([]);
 
   const {
     register,
@@ -41,27 +38,17 @@ function ArticleEditor() {
    * UseEffect chamado quando o componente é montado ou quando o pathname muda
    *
    * Se o pathname possuir o parâmetro 'id' o useEffect buscará os dados do
-   * artigo pelo id no backend e preencherá o formulário com os dados.
+   * author pelo id no backend e preencherá o formulário com os dados.
    * Caso contrário, o useEffect apenas limpará o formulário.
    */
   useEffect(() => {
-    api.get(`/authors`).then(response => {
-      const { authors } = response.data;
-
-      authors.forEach((author: IAuthorPreview) => {
-        console.log('api.get -> author:', author);
-      });
-
-      setAuthors(authors);
-    });
-
     if (!id) {
       reset(INITIAL_VALUES);
 
       return;
     }
 
-    api.get(`/article/${id}`).then(response => reset(response.data));
+    api.get(`/author/${id}`).then(response => reset(response.data));
   }, [useLocation().pathname]);
 
   /**
@@ -69,10 +56,10 @@ function ArticleEditor() {
    *
    * @param data - Dados do formulário
    */
-  function handleCreateArticle(data: FieldValues) {
+  function handleSaveAuthor(data: FieldValues) {
     const formData = new FormData();
 
-    // Se estiver editando, envia o id do artigo
+    // Se estiver editando, envia o id do author
     if (id) {
       formData.append('id', id);
     }
@@ -85,31 +72,31 @@ function ArticleEditor() {
 
     // Simula o tempo de espera para a requisição
     setTimeout(() => {
-      submitArticle(formData);
+      submitAuthor(formData);
     }, 2000);
   }
 
-  async function submitArticle(formData: FormData) {
+  async function submitAuthor(formData: FormData) {
     const method = id ? 'put' : 'post';
 
-    await api[method]('/article', formData)
+    await api[method]('/author', formData)
       .then(response => {
         addToast({
           type: 'success',
-          title: `Article ${id ? 'updated' : 'created'} successfully!`,
+          title: `Author ${id ? 'updated' : 'created'} successfully!`,
         });
 
         setSubmitSuccessful(true);
         setLoadingSubmit(false);
 
-        navigate(`/article/${response.data.id}`);
+        navigate(`/authors`);
       })
       .catch(error => {
         setLoadingSubmit(false);
 
         addToast({
           type: 'error',
-          title: 'Error creating article!',
+          title: 'Error creating author!',
           description: 'Please try again',
         });
       });
@@ -133,129 +120,94 @@ function ArticleEditor() {
       <main className="max-w-[52rem] mx-auto px-4 pb-10 sm:px-6 md:px-8 xl:px-12 lg:max-w-6xl">
         <header>
           <section className="mt-3 max-w-4xl sm:mx-auto sm:px-4">
-            <form onSubmit={handleSubmit(handleCreateArticle)}>
+            <form onSubmit={handleSubmit(handleSaveAuthor)}>
               <div className="space-y-12">
                 <div className="border-b border-slate-900/10 dark:border-slate-200/10 pb-12">
                   <h2 className="text-lg font-semibold leading-7 text-slate-900 dark:text-slate-200">
-                    Article Editor
+                    Author Information
                   </h2>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    Use the form below to create a new article. The 'Subtitle' and
-                    'Content' fields support HTML.
+                    Use this form to add a new author
                   </p>
 
                   <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="col-span-full">
+                    <div className="sm:col-span-3">
                       <label
                         className="font-semibold block mb-1 required"
-                        htmlFor="title"
+                        htmlFor="first_name"
                       >
-                        Title
+                        First Name
                       </label>
 
                       <Input
-                        id="title"
+                        id="first_name"
                         type="text"
-                        label="title"
+                        label="first_name"
                         register={register}
                         required
-                        placeholder="Catchy title goes here"
+                        placeholder="First Name"
                       />
-                      {errors.title && (
+                      {errors.first_name && (
+                        <ErrorWarning>This field is required</ErrorWarning>
+                      )}
+                    </div>
+
+                    <div className="sm:col-span-3">
+                      <label
+                        className="font-semibold block mb-1 required"
+                        htmlFor="last_name"
+                      >
+                        Last Name
+                      </label>
+
+                      <Input
+                        id="last_name"
+                        type="text"
+                        label="last_name"
+                        register={register}
+                        required
+                        placeholder="First Name"
+                      />
+                      {errors.last_name && (
                         <ErrorWarning>This field is required</ErrorWarning>
                       )}
                     </div>
 
                     <div className="col-span-full">
-                      <label
-                        className="font-semibold block mb-1 required"
-                        htmlFor="subtitle"
-                      >
-                        Subtitle
+                      <label className="font-semibold block mb-1" htmlFor="avatar_url">
+                        Avatar URL
                       </label>
 
-                      <Textarea
-                        id="subtitle"
-                        label="subtitle"
+                      <Input
+                        id="avatar_url"
+                        type="text"
+                        label="avatar_url"
                         register={register}
-                        required
-                        placeholder="Hook them with a catchy subheading!"
-                        rows={10}
+                        placeholder="First Name"
                       />
-                      {errors.subtitle && (
+                      {errors.avatar_url && (
                         <ErrorWarning>This field is required</ErrorWarning>
                       )}
                     </div>
 
-                    <div className="col-span-full">
+                    <div className="sm:col-span-3">
                       <label
-                        className="font-semibold block mb-1 required"
-                        htmlFor="author_id"
+                        className="font-semibold block mb-1"
+                        htmlFor="twitter_username"
                       >
-                        Author
+                        Twitter Username
                       </label>
 
-                      <Select
-                        id="author_id"
-                        label="author_id"
+                      <Input
+                        id="twitter_username"
+                        type="text"
+                        label="twitter_username"
                         register={register}
-                        required
-                        placeholder="Introduce yourself to the readers"
-                      >
-                        <option>Choose an author</option>
-
-                        {authors.map(author => (
-                          <option key={author.id} value={author.id}>
-                            {author.first_name} {author.last_name}
-                          </option>
-                        ))}
-                      </Select>
-
-                      {errors.author_id && (
-                        <ErrorWarning>This field is required</ErrorWarning>
-                      )}
-                    </div>
-
-                    <div className="col-span-full">
-                      <label
-                        className="font-semibold block mb-1 required"
-                        htmlFor="content"
-                      >
-                        Content
-                      </label>
-
-                      <Controller
-                        control={control}
-                        name="content"
-                        rules={{ required: true }}
-                        render={({
-                          field: { onChange, onBlur, value, name, ref },
-                          fieldState: { invalid, isTouched, isDirty, error },
-                          formState,
-                        }) => (
-                          <Editor
-                            id="content"
-                            name={name}
-                            onChange={onChange}
-                            onBlur={onBlur}
-                            isDirty={isDirty}
-                            value={value}
-                          />
-                        )}
+                        placeholder="First Name"
                       />
-
-                      {errors.content && (
+                      {errors.twitter_username && (
                         <ErrorWarning>This field is required</ErrorWarning>
                       )}
-
-                      {/* <Textarea
-                        id="content"
-                        label="content"
-                        register={register}
-                        required
-                        placeholder="Required"
-                        rows={30}
-                      /> */}
                     </div>
                   </div>
                 </div>
@@ -273,7 +225,7 @@ function ArticleEditor() {
 
                   <div>
                     <Button type="submit" color="default" loading={loadingSubmit}>
-                      Share your story
+                      Save
                     </Button>
                   </div>
                 </div>
@@ -286,4 +238,4 @@ function ArticleEditor() {
   );
 }
 
-export default ArticleEditor;
+export default AuthorForm;

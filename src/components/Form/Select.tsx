@@ -1,15 +1,15 @@
-import { InputHTMLAttributes } from 'react';
+import { SelectHTMLAttributes } from 'react';
 import { Path, UseFormRegister } from 'react-hook-form';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: Path<any>;
   register: UseFormRegister<any>;
   required?: boolean;
 }
 
-export function Input({ label, register, required, ...props }: InputProps) {
+export function Select({ label, register, required, children, ...props }: SelectProps) {
   return (
-    <input
+    <select
       {...register(label, { required })}
       {...props}
       className="
@@ -28,6 +28,8 @@ export function Input({ label, register, required, ...props }: InputProps) {
         dark:text-white
         placeholder:text-slate-400
       "
-    />
+    >
+      {children}
+    </select>
   );
 }

@@ -40,6 +40,15 @@ function Header() {
 
                   <li>
                     <Link
+                      to="/authors"
+                      className="hover:text-sky-500 dark:hover:text-sky-400"
+                    >
+                      Authors
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
                       to="/new-article"
                       className="hover:text-sky-500 dark:hover:text-sky-400"
                     >
