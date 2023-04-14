@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
-import { BiEditAlt, BiTrash } from 'react-icons/bi';
+import { BiChevronLeft, BiEditAlt, BiTrash } from 'react-icons/bi';
 
 import Header from '../components/Header';
 import api from '../services/api';
@@ -9,6 +9,7 @@ import date from '../utils/date-formatter';
 import { Button } from '../components/Buttons/Button';
 import { GoBackButton } from '../components/Buttons/GoBackButton';
 import { useToast } from '../hooks/toast';
+import { LinkButton } from '../components/Buttons/LinkButton';
 
 export interface IArticle {
   id: number;
@@ -75,7 +76,10 @@ function Article() {
       <div className="overflow-hidden">
         <div className="max-w-8xl mx-auto">
           <div className="flex px-4 pt-8 pb-10 lg:px-8">
-            <GoBackButton />
+            <LinkButton to="/">
+              <BiChevronLeft className="text-lg mr-1 text-slate-400 w-auto h-6 group-hover:text-slate-600 dark:group-hover:text-slate-300" />
+              Go back
+            </LinkButton>
           </div>
         </div>
 
@@ -84,10 +88,32 @@ function Article() {
             <main>
               {article && (
                 <article className="relative pt-10">
+                  {/* Título do Artigo */}
                   <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 md:text-3xl">
                     {article.title}
                   </h1>
 
+                  {/* Botões de edição e exclusão (position: absolute) */}
+                  <div className="absolute z-10 top-0 right-0 placeholder:flex space-x-2">
+                    <Button
+                      color="alternative"
+                      onClick={() => navigate(`/edit-article/${id}`)}
+                    >
+                      <div className="flex">
+                        <BiEditAlt className="text-lg" />
+                      </div>
+                    </Button>
+
+                    <Button
+                      color="alternative"
+                      onClick={handleDeleteArticle}
+                      loading={loadingDelete}
+                    >
+                      <BiTrash className=" text-lg" />
+                    </Button>
+                  </div>
+
+                  {/* Data do artigo (position: absolute) */}
                   <div className="text-sm leading-6">
                     <dl>
                       <dt className="sr-only">Date</dt>
@@ -120,25 +146,6 @@ function Article() {
                         </div>
                       </li>
                     </ul>
-
-                    <div className="flex space-x-2">
-                      <Button
-                        color="alternative"
-                        onClick={() => navigate(`/edit-article/${id}`)}
-                      >
-                        <div className="flex">
-                          <BiEditAlt className="text-lg" />
-                        </div>
-                      </Button>
-
-                      <Button
-                        color="alternative"
-                        onClick={handleDeleteArticle}
-                        loading={loadingDelete}
-                      >
-                        <BiTrash className=" text-lg" />
-                      </Button>
-                    </div>
                   </div>
 
                   <div className="mt-12 prose prose-slate dark:prose-dark">

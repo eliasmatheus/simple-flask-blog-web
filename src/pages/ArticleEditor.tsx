@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { FieldValues, useForm } from 'react-hook-form';
+import { Controller, FieldValues, useForm } from 'react-hook-form';
 
 import { Button } from '../components/Buttons/Button';
 import { Input } from '../components/Form/Input';
@@ -10,6 +10,7 @@ import api from '../services/api';
 import { ErrorWarning } from '../components/Form/ErrorWarning';
 import { useToast } from '../hooks/toast';
 import { GoBackButton } from '../components/Buttons/GoBackButton';
+import Editor from '../components/Editor';
 
 const INITIAL_VALUES = {
   title: '',
@@ -29,6 +30,7 @@ function ArticleEditor() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -75,29 +77,29 @@ function ArticleEditor() {
   }
 
   async function submitArticle(formData: FormData) {
-    try {
-      const method = id ? 'put' : 'post';
+    const method = id ? 'put' : 'post';
 
-      await api[method]('/article', formData);
+    await api[method]('/article', formData)
+      .then(response => {
+        addToast({
+          type: 'success',
+          title: `Article ${id ? 'updated' : 'created'} successfully!`,
+        });
 
-      addToast({
-        type: 'success',
-        title: `Article ${id ? 'updated' : 'created'} successfully!`,
+        setSubmitSuccessful(true);
+        setLoadingSubmit(false);
+
+        navigate(`/article/${response.data.id}`);
+      })
+      .catch(error => {
+        setLoadingSubmit(false);
+
+        addToast({
+          type: 'error',
+          title: 'Error creating article!',
+          description: 'Please try again',
+        });
       });
-
-      setSubmitSuccessful(true);
-      setLoadingSubmit(false);
-
-      navigate('/');
-    } catch (error) {
-      setLoadingSubmit(false);
-
-      addToast({
-        type: 'error',
-        title: 'Error creating article!',
-        description: 'Please try again',
-      });
-    }
   }
 
   // Reseta após o submit ser bem sucedido
@@ -116,7 +118,7 @@ function ArticleEditor() {
       </div>
 
       <main className="max-w-[52rem] mx-auto px-4 pb-10 sm:px-6 md:px-8 xl:px-12 lg:max-w-6xl">
-        <header className="py-16">
+        <header>
           <section className="mt-3 max-w-4xl sm:mx-auto sm:px-4">
             <form onSubmit={handleSubmit(handleCreateArticle)}>
               <div className="space-y-12">
@@ -144,7 +146,7 @@ function ArticleEditor() {
                         label="title"
                         register={register}
                         required
-                        placeholder="Required"
+                        placeholder="Catchy title goes here"
                       />
                       {errors.title && (
                         <ErrorWarning>This field is required</ErrorWarning>
@@ -164,7 +166,8 @@ function ArticleEditor() {
                         label="subtitle"
                         register={register}
                         required
-                        placeholder="Required"
+                        placeholder="Hook them with a catchy subheading!"
+                        rows={10}
                       />
                       {errors.subtitle && (
                         <ErrorWarning>This field is required</ErrorWarning>
@@ -185,7 +188,7 @@ function ArticleEditor() {
                         register={register}
                         required
                         type="text"
-                        placeholder="Required"
+                        placeholder="Introduce yourself to the readers"
                       />
                       {errors.author && (
                         <ErrorWarning>This field is required</ErrorWarning>
@@ -200,17 +203,38 @@ function ArticleEditor() {
                         Content
                       </label>
 
-                      <Textarea
+                      <Controller
+                        control={control}
+                        name="content"
+                        rules={{ required: true }}
+                        render={({
+                          field: { onChange, onBlur, value, name, ref },
+                          fieldState: { invalid, isTouched, isDirty, error },
+                          formState,
+                        }) => (
+                          <Editor
+                            id="content"
+                            name={name}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            isDirty={isDirty}
+                            value={value}
+                          />
+                        )}
+                      />
+
+                      {errors.content && (
+                        <ErrorWarning>This field is required</ErrorWarning>
+                      )}
+
+                      {/* <Textarea
                         id="content"
                         label="content"
                         register={register}
                         required
                         placeholder="Required"
                         rows={30}
-                      />
-                      {errors.content && (
-                        <ErrorWarning>This field is required</ErrorWarning>
-                      )}
+                      /> */}
                     </div>
                   </div>
                 </div>
@@ -222,13 +246,13 @@ function ArticleEditor() {
                       color="alternative"
                       onClick={() => navigate(-1)}
                     >
-                      Cancel
+                      Cancel and go back
                     </Button>
                   </div>
 
                   <div>
                     <Button type="submit" color="default" loading={loadingSubmit}>
-                      Submit
+                      Share your story
                     </Button>
                   </div>
                 </div>

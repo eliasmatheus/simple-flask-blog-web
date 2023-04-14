@@ -19,10 +19,10 @@ function Header() {
         <div className="py-4 border-b border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 px-4">
           <div className="relative flex items-center">
             <Link to="/" className="mr-3 flex-none w-[2.0625] overflow-hidden md:w-auto">
-              <span className="sr-only">Flask + React Blog home page</span>
+              <span className="sr-only">Code Chronicles home page</span>
 
               <span className="tracking-tight text-slate-900 dark:text-slate-100">
-                Flask + React Blog
+                Code Chronicles
               </span>
             </Link>
 

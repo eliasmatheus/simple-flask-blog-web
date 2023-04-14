@@ -33,7 +33,7 @@ function Root() {
           </h1>
 
           <p className="text-lg text-slate-700 dark:text-slate-400">
-            All the latest articles from Flask + React Blog
+            Stay up-to-date with our latest programming insights and discoveries.
           </p>
         </header>
 
