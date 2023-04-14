@@ -15,7 +15,7 @@ import Editor from '../components/Editor';
 const INITIAL_VALUES = {
   title: '',
   subtitle: '',
-  author: '',
+  author_id: '',
   content: '',
 };
 
@@ -25,6 +25,7 @@ function ArticleEditor() {
   const { id } = useParams();
   const [isSubmitSuccessful, setSubmitSuccessful] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [authors, setAuthors] = useState([]);
 
   const {
     register,
@@ -49,6 +50,15 @@ function ArticleEditor() {
     }
 
     api.get(`/article/${id}`).then(response => reset(response.data));
+    api.get(`/authors`).then(response => {
+      const { authors } = response.data;
+
+      authors.forEach(author => {
+        console.log('api.get -> author:', author);
+      });
+
+      setAuthors(authors);
+    });
   }, [useLocation().pathname]);
 
   /**
@@ -177,20 +187,20 @@ function ArticleEditor() {
                     <div className="col-span-full">
                       <label
                         className="font-semibold block mb-1 required"
-                        htmlFor="author"
+                        htmlFor="author_id"
                       >
                         Author
                       </label>
 
                       <Input
-                        id="author"
-                        label="author"
+                        id="author_id"
+                        label="author_id"
                         register={register}
                         required
                         type="text"
                         placeholder="Introduce yourself to the readers"
                       />
-                      {errors.author && (
+                      {errors.author_id && (
                         <ErrorWarning>This field is required</ErrorWarning>
                       )}
                     </div>
