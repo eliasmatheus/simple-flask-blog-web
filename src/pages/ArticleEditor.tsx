@@ -48,10 +48,6 @@ function ArticleEditor() {
     api.get(`/authors`).then(response => {
       const { authors } = response.data;
 
-      authors.forEach((author: IAuthorPreview) => {
-        console.log('api.get -> author:', author);
-      });
-
       setAuthors(authors);
     });
 

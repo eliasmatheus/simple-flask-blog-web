@@ -4,6 +4,8 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import api from '../services/api';
 import '../styles/main.css';
+import { Button } from '../components/Buttons/Button';
+import { useNavigate } from 'react-router-dom';
 
 interface IArticlePreview {
   id: number;
@@ -13,7 +15,8 @@ interface IArticlePreview {
   date_posted: string;
 }
 
-function Root() {
+function Articles() {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState<IArticlePreview[]>([]);
 
   useEffect(() => {
@@ -32,9 +35,13 @@ function Root() {
             Latest Articles
           </h1>
 
-          <p className="text-lg text-slate-700 dark:text-slate-400">
+          <p className="mb-4 text-lg text-slate-700 dark:text-slate-400">
             Stay up-to-date with our latest programming insights and discoveries.
           </p>
+
+          <Button color="alternative" onClick={() => navigate('/new-article')}>
+            Create Article
+          </Button>
         </header>
 
         <div className="relative sm:pb-12 sm:ml-[calc(2rem+1px)] md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-48rem))]">
@@ -59,4 +66,4 @@ function Root() {
   );
 }
 
-export default Root;
+export default Articles;

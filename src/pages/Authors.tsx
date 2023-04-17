@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import ArticlePreview from '../components/ArticlePreview';
-import Footer from '../components/Footer';
 import Header from '../components/Header';
 import api from '../services/api';
 import '../styles/main.css';
@@ -38,11 +36,11 @@ function Authors() {
           </h1>
 
           <p className="mb-4 text-lg text-slate-700 dark:text-slate-400">
-            Stay up-to-date with our latest programming insights and discoveries.
+            Meet the authors who make Code Chronicles possible.
           </p>
 
           <Button color="alternative" onClick={() => navigate('/new-author')}>
-            Add new author
+            Add Author
           </Button>
         </header>
 
@@ -52,7 +50,7 @@ function Authors() {
               {authors &&
                 authors.map(author => (
                   <li key={author.id} className="relative flex items-start">
-                    <div className="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-slate-900/10 shadow overflow-hidden flex-none dark:bg-indigo-500 dark:highlight-white/20">
+                    <div className="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-slate-900/10 shadow overflow-hidden flex-none dark:bg-sky-500 dark:highlight-white/20">
                       <div className="aspect-w-1 aspect-h-1 bg-[length:100%]">
                         <img
                           src={author.avatar_url || '/images/avatar-placeholder.png'}

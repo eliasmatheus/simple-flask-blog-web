@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Controller, FieldValues, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 
 import { Button } from '../components/Buttons/Button';
 import { Input } from '../components/Form/Input';
-import { Textarea } from '../components/Form/TextArea';
 import Header from '../components/Header';
 import api from '../services/api';
 import { ErrorWarning } from '../components/Form/ErrorWarning';
 import { useToast } from '../hooks/toast';
 import { GoBackButton } from '../components/Buttons/GoBackButton';
-import Editor from '../components/Editor';
 
 const INITIAL_VALUES = {
   firs_name: '',
@@ -26,12 +24,16 @@ function AuthorForm() {
   const { id } = useParams();
   const [isSubmitSuccessful, setSubmitSuccessful] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const [avatarPreview, setAvatarPreview] = useState(null);
 
   const {
     register,
     handleSubmit,
     reset,
     control,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -49,7 +51,10 @@ function AuthorForm() {
       return;
     }
 
-    api.get(`/author/${id}`).then(response => reset(response.data));
+    api.get(`/author/${id}`).then(response => {
+      reset(response.data);
+      setAvatarPreview(response.data.avatar_url);
+    });
   }, [useLocation().pathname]);
 
   /**
@@ -103,10 +108,60 @@ function AuthorForm() {
       });
   }
 
+  /**
+   * Função que envia os dados do formulário para o backend.
+   *
+   * @param data - Dados do formulário
+   */
+  function handleDeleteAuthor() {
+    if (window.confirm('Are you sure you want to delete this author?')) {
+      setLoadingDelete(true);
+
+      // Simula o tempo de espera para a requisição
+      setTimeout(() => {
+        deleteAuthor();
+      }, 2000);
+    }
+  }
+
+  async function deleteAuthor() {
+    await api
+      .delete(`/author/${id}`)
+      .then(response => {
+        addToast({
+          type: 'success',
+          title: `Author deleted successfully!`,
+        });
+
+        setSubmitSuccessful(true);
+        setLoadingDelete(false);
+
+        navigate(`/authors`);
+      })
+      .catch(error => {
+        setLoadingDelete(false);
+
+        addToast({
+          type: 'error',
+          title: 'Error creating deleting!',
+          description: 'Please try again',
+        });
+      });
+  }
+
   // Reseta após o submit ser bem sucedido
   useEffect(() => {
     reset(INITIAL_VALUES);
   }, [isSubmitSuccessful]);
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      if (name === 'avatar_url') {
+        setAvatarPreview(value.avatar_url);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   return (
     <>
@@ -215,7 +270,23 @@ function AuthorForm() {
                       )}
                     </div>
 
-                    <div className="col-span-full">
+                    <div className="sm:col-span-1">
+                      <label className="font-semibold block mb-1" htmlFor="avatar_url">
+                        Avatar Preview
+                      </label>
+
+                      <div className="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-slate-900/10 shadow overflow-hidden flex-none dark:bg-sky-500 dark:highlight-white/20">
+                        <div className="aspect-w-1 aspect-h-1 bg-[length:100%]">
+                          <img
+                            src={avatarPreview || '/images/avatar-placeholder.png'}
+                            alt=""
+                            className="rounded-full bg-slate-50 dark:bg-slate-800"
+                            decoding="async"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sm:col-span-5">
                       <label className="font-semibold block mb-1" htmlFor="avatar_url">
                         Avatar URL
                       </label>
@@ -245,12 +316,33 @@ function AuthorForm() {
                     </Button>
                   </div>
 
+                  {id && (
+                    <div>
+                      <Button
+                        type="button"
+                        color="red"
+                        onClick={handleDeleteAuthor}
+                        loading={loadingDelete}
+                      >
+                        Delete Author*
+                      </Button>
+                    </div>
+                  )}
+
                   <div>
                     <Button type="submit" color="default" loading={loadingSubmit}>
                       Save
                     </Button>
                   </div>
                 </div>
+                {id && (
+                  <div className="text-right text-sm">
+                    <p>
+                      *Deleting an author will result in the deletion of all their
+                      articles.
+                    </p>
+                  </div>
+                )}
               </div>
             </form>
           </section>

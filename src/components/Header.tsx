@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Header() {
+  const location = useLocation();
+
   return (
     <div
       className="
@@ -40,19 +42,23 @@ function Header() {
 
                   <li>
                     <Link
-                      to="/authors"
-                      className="hover:text-sky-500 dark:hover:text-sky-400"
+                      to="/articles"
+                      className={`${
+                        location.pathname === '/articles' && 'text-sky-700'
+                      } hover:text-sky-500 dark:hover:text-sky-400`}
                     >
-                      Authors
+                      Articles
                     </Link>
                   </li>
 
                   <li>
                     <Link
-                      to="/new-article"
-                      className="hover:text-sky-500 dark:hover:text-sky-400"
+                      to="/authors"
+                      className={`${
+                        location.pathname === '/authors' && 'text-sky-700'
+                      } hover:text-sky-500 dark:hover:text-sky-400`}
                     >
-                      Create Article
+                      Authors
                     </Link>
                   </li>
                 </ul>
