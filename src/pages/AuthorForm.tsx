@@ -15,6 +15,7 @@ import Editor from '../components/Editor';
 const INITIAL_VALUES = {
   firs_name: '',
   last_name: '',
+  email: '',
   twitter_username: '',
   avatar_url: '',
 };
@@ -166,26 +167,30 @@ function AuthorForm() {
                         label="last_name"
                         register={register}
                         required
-                        placeholder="First Name"
+                        placeholder="Last Name"
                       />
                       {errors.last_name && (
                         <ErrorWarning>This field is required</ErrorWarning>
                       )}
                     </div>
 
-                    <div className="col-span-full">
-                      <label className="font-semibold block mb-1" htmlFor="avatar_url">
-                        Avatar URL
+                    <div className="sm:col-span-3 required">
+                      <label
+                        className="font-semibold block mb-1"
+                        htmlFor="twitter_username"
+                      >
+                        Email
                       </label>
 
                       <Input
-                        id="avatar_url"
+                        id="email"
                         type="text"
-                        label="avatar_url"
+                        label="email"
                         register={register}
-                        placeholder="First Name"
+                        required
+                        placeholder="Email"
                       />
-                      {errors.avatar_url && (
+                      {errors.email && (
                         <ErrorWarning>This field is required</ErrorWarning>
                       )}
                     </div>
@@ -203,9 +208,26 @@ function AuthorForm() {
                         type="text"
                         label="twitter_username"
                         register={register}
-                        placeholder="First Name"
+                        placeholder="Twitter Username"
                       />
                       {errors.twitter_username && (
+                        <ErrorWarning>This field is required</ErrorWarning>
+                      )}
+                    </div>
+
+                    <div className="col-span-full">
+                      <label className="font-semibold block mb-1" htmlFor="avatar_url">
+                        Avatar URL
+                      </label>
+
+                      <Input
+                        id="avatar_url"
+                        type="text"
+                        label="avatar_url"
+                        register={register}
+                        placeholder="Avatar URL"
+                      />
+                      {errors.avatar_url && (
                         <ErrorWarning>This field is required</ErrorWarning>
                       )}
                     </div>
