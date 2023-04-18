@@ -6,6 +6,8 @@ import api from '../services/api';
 import '../styles/main.css';
 import { Button } from '../components/Buttons/Button';
 import { useNavigate } from 'react-router-dom';
+import Hero from '../components/Hero';
+import Main from '../components/Main';
 
 interface IArticlePreview {
   id: number;
@@ -29,22 +31,27 @@ function Articles() {
     <>
       <Header />
 
-      <main className="max-w-[52rem] mx-auto px-4 pb-28 sm:px-6 md:px-8 xl:px-12 lg:max-w-6xl">
-        <header className="py-16 sm:text-center">
-          <h1 className="mb-4 text-3xl tracking-tight text-slate-900 font-extrabold dark:text-slate-200">
-            Latest Articles
-          </h1>
+      <Hero
+        className="bg-top"
+        backgroundUrl="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+      >
+        {/* text-slate-900 */}
+        <h1 className="mb-4 text-3xl tracking-tight text-slate-200 font-extrabold dark:text-slate-200">
+          Code Chronicles
+        </h1>
 
-          <p className="mb-4 text-lg text-slate-700 dark:text-slate-400">
-            Stay up-to-date with our latest programming insights and discoveries.
-          </p>
+        {/* text-slate-700 */}
+        <p className="mb-4 text-lg text-slate-400 dark:text-slate-400">
+          Stay up-to-date with our latest programming insights and discoveries.
+        </p>
 
-          <Button color="alternative" onClick={() => navigate('/new-article')}>
-            Create Article
-          </Button>
-        </header>
+        <Button color="default" onClick={() => navigate('/new-article')}>
+          Create Article
+        </Button>
+      </Hero>
 
-        <div className="relative sm:pb-12 sm:ml-[calc(2rem+1px)] md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-48rem))]">
+      <Main>
+        <div className="relative mt-10 sm:pb-12 sm:ml-[calc(2rem+1px)] md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-48rem))]">
           <div className="hidden absolute top-3 bottom-0 right-full mr-7 md:mr-[3.25rem] w-px bg-slate-200 dark:bg-slate-800 sm:block"></div>
 
           <div className="space-y-16">
@@ -61,7 +68,7 @@ function Articles() {
             <p className="text-base ">Click on Add New to create one</p>
           </div>
         )}
-      </main>
+      </Main>
     </>
   );
 }

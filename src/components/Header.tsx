@@ -20,7 +20,7 @@ function Header() {
       <div className="max-w-8xl mx-auto">
         <div className="py-4 border-b border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 px-4">
           <div className="relative flex items-center">
-            <Link to="/" className="mr-3 flex-none w-[2.0625] overflow-hidden md:w-auto">
+            <Link to="/" className="mr-3 flex-none overflow-hidden">
               <span className="sr-only">Code Chronicles home page</span>
 
               <span className="tracking-tight text-slate-900 dark:text-slate-100">
@@ -44,7 +44,7 @@ function Header() {
                     <Link
                       to="/articles"
                       className={`${
-                        location.pathname === '/articles' && 'text-sky-700'
+                        location.pathname === '/articles' && 'border-b-2 border-sky-600'
                       } hover:text-sky-500 dark:hover:text-sky-400`}
                     >
                       Articles
@@ -55,7 +55,7 @@ function Header() {
                     <Link
                       to="/authors"
                       className={`${
-                        location.pathname === '/authors' && 'text-sky-700'
+                        location.pathname === '/authors' && 'border-b-2 border-sky-600'
                       } hover:text-sky-500 dark:hover:text-sky-400`}
                     >
                       Authors
