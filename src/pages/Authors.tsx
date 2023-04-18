@@ -63,7 +63,7 @@ function Authors() {
                         <img
                           src={author.avatar_url || '/images/avatar-placeholder.png'}
                           alt=""
-                          className="rounded-full bg-slate-50 dark:bg-slate-800"
+                          className="rounded-full aspect-square object-cover bg-slate-50 dark:bg-slate-800"
                           decoding="async"
                         />
                       </div>
