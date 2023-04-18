@@ -1,6 +1,6 @@
 # Code Chronicles Blog
 
-![GitHub](https://img.shields.io/github/license/eliasmatheus/simple-flask-blog-web)
+![GitHub](https://img.shields.io/github/license/eliasmatheus/simple-flask-blog-web?style=flat-square)
 
 Este projeto da uma interface de usuário desenvolvida com React e Tailwind para a API de um blog desenvolvido em
 Flask para a disciplina de **Desenvolvimento Full Stack Básico** do programa de pós-graduação em Desenvolvimento
