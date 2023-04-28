@@ -6,7 +6,7 @@ interface ArticlePreviewData {
   title: string;
   subtitle: string;
   author: string;
-  date_posted: string;
+  created_at: string;
 }
 
 function ArticlePreview(props: ArticlePreviewData) {
@@ -43,9 +43,7 @@ function ArticlePreview(props: ArticlePreviewData) {
 
           <dd className="whitespace-nowrap text-sm leading-6 dark:text-slate-400">
             {/* <time dateTime="2023-03-28T14:30:00.000Z">March 28, 2023</time> */}
-            <time dateTime={props.date_posted}>
-              {date(props.date_posted, 'shortDate')}
-            </time>
+            <time dateTime={props.created_at}>{date(props.created_at, 'shortDate')}</time>
           </dd>
         </dl>
       </div>

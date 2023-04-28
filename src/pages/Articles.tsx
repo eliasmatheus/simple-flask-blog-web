@@ -14,7 +14,7 @@ interface IArticlePreview {
   title: string;
   subtitle: string;
   author: string;
-  date_posted: string;
+  created_at: string;
 }
 
 function Articles() {

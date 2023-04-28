@@ -17,7 +17,7 @@ export interface IArticle {
   author_id: number;
   author: unknown;
   content: string;
-  date_posted: string;
+  created_at: string;
 }
 
 function Article() {
@@ -118,8 +118,8 @@ function Article() {
                     <dl>
                       <dt className="sr-only">Date</dt>
                       <dd className="absolute top-0 inset-x-0 text-slate-700 dark:text-slate-400">
-                        <time dateTime={article.date_posted}>
-                          {date(article.date_posted)}
+                        <time dateTime={article.created_at}>
+                          {date(article.created_at)}
                         </time>
                       </dd>
                     </dl>
